@@ -1,11 +1,17 @@
 import { useState } from "react";
+import ClaudeRecipe from "./ClaudeRecipe";
 
 const Main = () => {
   const [ingredients, setIngredients] = useState([]);
+  const [recipeShown, setRecipeShown] = useState(false);
 
   function addIngredient(formData) {
     const newIngredient = formData.get("ingredient");
     setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
+  }
+
+  function toggleRecipeShown() {
+    setRecipeShown((prevShown) => !prevShown);
   }
 
   return (
@@ -35,11 +41,12 @@ const Main = () => {
                 <h3>Ready for a recipe?</h3>
                 <p>Generate a recipe from your list of ingredients.</p>
               </div>
-              <button>Get a recipe</button>
+              <button onClick={toggleRecipeShown}>Get a recipe</button>
             </div>
           )}
         </section>
       )}
+      {recipeShown && <ClaudeRecipe />}
     </main>
   );
 };
