@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ClaudeRecipe from "./ClaudeRecipe";
+import IngredientsList from "./IngredientsList";
 
 const Main = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -26,7 +27,9 @@ const Main = () => {
         <button>Add ingredient</button>
       </form>
 
-      {ingredients.length > 0 && (
+      <IngredientsList ingredients={ingredients} toggleRecipeShown={toggleRecipeShown}/>
+
+      {/* {ingredients.length > 0 && (
         <section>
           <h2>Ingredients on hand:</h2>
           <ul className="ingredients-list" aria-live="polite">
@@ -45,10 +48,10 @@ const Main = () => {
             </div>
           )}
         </section>
-      )}
+      )} */}
       {recipeShown && <ClaudeRecipe />}
     </main>
   );
 };
-<ul></ul>;
+
 export default Main;
