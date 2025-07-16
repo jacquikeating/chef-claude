@@ -1,10 +1,13 @@
 import { useState } from "react";
 import ClaudeRecipe from "./ClaudeRecipe";
 import IngredientsList from "./IngredientsList";
+import getRecipeFromMistral from "./ai.js"
 
 const Main = () => {
   const [ingredients, setIngredients] = useState([]);
   const [recipeShown, setRecipeShown] = useState(false);
+  const [recipeFromAI, setRecipeFromAI] = useState({});
+
 
   function addIngredient(formData) {
     const newIngredient = formData.get("ingredient");
@@ -14,6 +17,13 @@ const Main = () => {
   function toggleRecipeShown() {
     setRecipeShown((prevShown) => !prevShown);
   }
+
+  async function getRecipe() {
+      const result = await getRecipeFromMistral(ingredients);
+      console.log(result);
+      setRecipeFromAI(result);
+      toggleRecipeShown();
+    }
 
   return (
     <main>
@@ -27,29 +37,13 @@ const Main = () => {
         <button>Add ingredient</button>
       </form>
 
-      <IngredientsList ingredients={ingredients} toggleRecipeShown={toggleRecipeShown}/>
+      <IngredientsList 
+        ingredients={ingredients} 
+        toggleRecipeShown={toggleRecipeShown} 
+        getRecipe={getRecipe}
+      />
 
-      {/* {ingredients.length > 0 && (
-        <section>
-          <h2>Ingredients on hand:</h2>
-          <ul className="ingredients-list" aria-live="polite">
-            {ingredients.map((ingredient) => (
-              <li key="ingredient">{ingredient}</li>
-            ))}
-          </ul>
-
-          {ingredients.length > 3 && (
-            <div className="get-recipe-container">
-              <div>
-                <h3>Ready for a recipe?</h3>
-                <p>Generate a recipe from your list of ingredients.</p>
-              </div>
-              <button onClick={toggleRecipeShown}>Get a recipe</button>
-            </div>
-          )}
-        </section>
-      )} */}
-      {recipeShown && <ClaudeRecipe />}
+      {recipeShown && <ClaudeRecipe recipe={recipeFromAI} />}
     </main>
   );
 };

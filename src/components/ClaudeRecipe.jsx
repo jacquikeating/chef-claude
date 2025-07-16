@@ -1,6 +1,6 @@
 import React from "react";
 
-const ClaudeRecipe = () => {
+const ClaudeRecipe = ({recipe}) => {
   return (
     <section>
       <h2>Chef Claude Recommends:</h2>
