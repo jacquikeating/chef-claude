@@ -13,15 +13,10 @@ const Main = () => {
     setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
   }
 
-  function toggleRecipeShown() {
-    setRecipeShown((prevShown) => !prevShown);
-  }
-
   async function getRecipe() {
     const result = await getRecipeFromMistral(ingredients);
-    console.log(result);
     setRecipeFromAI(result);
-    toggleRecipeShown();
+    setRecipeShown((prevShown) => !prevShown);
   }
 
   return (
@@ -36,11 +31,7 @@ const Main = () => {
         <button>Add ingredient</button>
       </form>
 
-      <IngredientsList
-        ingredients={ingredients}
-        toggleRecipeShown={toggleRecipeShown}
-        getRecipe={getRecipe}
-      />
+      <IngredientsList ingredients={ingredients} getRecipe={getRecipe} />
 
       {recipeShown && <ClaudeRecipe recipe={recipeFromAI} />}
     </main>
